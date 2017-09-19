@@ -1,0 +1,16 @@
+{
+  "name": "awstest",
+  "version": "0.0.1",
+  "private": true,
+  "dependencies": {
+    "ejs": "latest",
+    "aws-sdk": "latest",
+    "express": "latest",
+    "body-parser": "latest",
+    "handbrake-js": "^2.2.2"
+  },
+  "scripts": {
+    "start": "node app.js"
+  },
+  "author": "Xilong Cao"
+}
