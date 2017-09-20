@@ -26,11 +26,24 @@
      <div id="convertFailed" class="alert alert-success" style="display:none">
         <p id="convertFailedText">Video convert failed.</p>
      </div>     
+
+     <div id="mergeSuccess" class="alert alert-success" style="display:none">
+        <p id="mergeSuccessText">Video merge success.</p>
+     </div>
+
+     <div id="mergeFailed" class="alert alert-success" style="display:none">
+        <p id="mergeFailedText">Video merge failed.</p>
+     </div>          
      
      <div>
         <p>Press the button to convert video</p>
         <button id="convertvideo" type="button" class="btn btn-primary">convert</button>
      </div>
+
+     <div>
+        <p>Press the button to merge video</p>
+        <button id="mergevideo" type="button" class="btn btn-primary">merge</button>
+     </div>     
     
     </div>
 
@@ -50,7 +63,21 @@
               .error(function(xhr) {
                 $("#convertFailed").show();                                      
               });
+      });
+
+      $("#mergevideo").click(function() {
+        $.post( "/mergevideo",
+                function(data) {
+                  $("#mergeSuccess").show();                    
+                                      
+                }
+              )
+              .error(function(xhr) {
+                $("#mergeFailed").show();                                      
+              });
       })
+
+
     })    
     </script>
 

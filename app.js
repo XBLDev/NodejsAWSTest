@@ -30,6 +30,9 @@ else
     var express = require('express');
     var bodyParser = require('body-parser');
     var hbjs = require('handbrake-js');
+    var find = require('find');
+    var videoStitch = require('video-stitch');
+    var videoConcat = videoStitch.concat;
 
     AWS.config.region = process.env.REGION
     
@@ -47,42 +50,79 @@ else
         });
     });   
 
+
+    app.post('/mergevideo', function(req, res) {
+        console.log('mergedvideo called');        
+        res.status(201).end();
+
+        // videoConcat.concat({
+        //     silent: true // optional. if set to false, gives detailed output on console 
+        // })
+        // .clips([
+        //     {
+        //     "fileName": "Vid1.mp4"
+        //     },
+        //     {
+        //     "fileName": "Vid2.mp4"
+        //     }
+        // ])
+        // .output("mergedVideo.mp4") //optional absolute file name for output file 
+        // .concat()
+        // .then((outputFileName) => {
+        //     res.status(201).end();
+        // });   
+    
+    
+    });
+
     app.post('/convertvideo', function(req, res) {
-        // res.status(500).end();
-        // console.log("supposed to be working!");
-       hbjs.exec({ input: 'VideosToConvert/vid2.MOV', output: 'ConvertedToMP4/vid2.mp4', rate: '30' }, function(err, stdout, stderr){
-        if (err) {
+            // console.log('convertvideo called');
+        // find.file(__dirname+'/VideosToConvert', function(files) {
+        //     console.log('number of files in VideosToConvert');
+        //     console.log(files.length);
+        // });
+        // res.status(201).end();
+
+
+
+        // res.status(200).json({
+        //     message: 'Welcome to the project-name api'
+        // });        
+        // res.end('convertvideo Called!');
+
+    //    hbjs.exec({ input: 'VideosToConvert/vid2.MOV', output: 'ConvertedToMP4/vid2.mp4', rate: '30' }, function(err, stdout, stderr){
+    //     if (err) {
+    //         res.status(500).end();
+    //         console.log(err);
+    //     }
+    //     else{
+    //         res.status(201).end();
+    //         console.log("COMPLETED!");
+    //     }
+    //     });
+
+
+
+
+        hbjs.spawn({ input: 'VideosToConvert/vid2.MOV', output: 'ConvertedToMP4/vid2.mp4', rate: '30' })
+        .on('error', function(err){
             res.status(500).end();
             console.log(err);
-        }
-        else{
+
+            // invalid user input, no video found etc
+        })
+        .on('progress', function(progress){
+            console.log(
+            'Percent complete: %s, ETA: %s',
+            progress.percentComplete,
+            progress.eta
+            );
+        })
+        .on('complete', function(progress){
             res.status(201).end();
             console.log("COMPLETED!");
-        }
-        });
 
-
-
-
-        // hbjs.spawn({ input: 'VideosToConvert/vid2.MOV', output: 'ConvertedToMP4/vid2.mp4', rate: '30' })
-        // .on('error', function(err){
-        //     res.status(500).end();
-        //     console.log(err);
-
-        //     // invalid user input, no video found etc
-        // })
-        // .on('progress', function(progress){
-        //     // console.log(
-        //     // 'Percent complete: %s, ETA: %s',
-        //     // progress.percentComplete,
-        //     // progress.eta
-        //     // );
-        // })
-        // .on('complete', function(progress){
-        //     res.status(201).end();
-        //     console.log("COMPLETED!");
-
-        // });        
+        });        
 
 
     });    
