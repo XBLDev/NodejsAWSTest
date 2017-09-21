@@ -1,6 +1,19 @@
 # NodejsAWSTest
 Hosting nodejs on AWS, mostly practice and experiments
 
+Comment 21/09/2017, 7:11 pm:
+
+Today built an instance with Ubuntu OS, installed Node, apache. Ran the code 
+in this repository, and some simple server with just Express. The idea here is 
+that I put a index.html under www folder, and in it I include the client JS that
+calls the Express server, and server responds.
+
+However it doens't work this way, apparently NodeJS can't just run on apache:
+https://stackoverflow.com/questions/14369865/running-node-js-in-apache
+
+One possible way is to let index.html to connect to a nodejs page, but for now 
+I have no idea how to do that.
+
 Comment 20/09/2017, 5:00 pm:
 
 Tried running NodeJS stitching: https://www.npmjs.com/package/video-stitch, which
